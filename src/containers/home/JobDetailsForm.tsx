@@ -8,34 +8,37 @@ import { IJobDetails } from "../../interface/forms";
 
 const JobDetailsForm: React.FC<{
   handleTab: (n: PageNumbers) => void;
-}> = ({ handleTab }) => {
+  jobDetails: IJobDetails;
+  setJobDetails: React.Dispatch<React.SetStateAction<IJobDetails>>;
+}> = ({ handleTab,setJobDetails,jobDetails }) => {
   const { handleChange, errors, touched, handleBlur, handleSubmit, values, setFieldTouched,setFieldValue } =
     useFormik<IJobDetails>({
-      initialValues: {
-        jobTitle: "",
-        jobDetails: "",
-        jobLocation: "",
-      },
+      initialValues: jobDetails,
       validationSchema: Yup.object().shape({
         jobTitle: Yup.string().required("Job Title is required"),
         jobDetails: Yup.string().required("Job Details is required"),
         jobLocation: Yup.string().required("Job Location is required"),
       }),
       onSubmit: (values) => {
-        console.log("Form Submitted", values); // Debugging line
-        console.log("Errors:", errors); // Debugging line
+        setJobDetails(values)
         handleTab(2);
       },
+      enableReinitialize: true,
     });
 
+    const handleFieldChange = (field: any, value: any) => {
+      setFieldValue(field, value);
+      setJobDetails({ ...values, [field]: value });
+    };
+
   return (
-    <Box width="100%" as="form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+    <Box width="100%" as="form" onSubmit={(e:any) => { e.preventDefault(); handleSubmit(); }}>
       <Box width="100%">
         <FormInput
           label="Job Title"
           placeholder="Enter job title"
           name="jobTitle"
-          onChange={handleChange}
+          onChange={(e) => handleFieldChange("jobTitle", e.target.value)}
           onBlur={handleBlur}
           value={values?.jobTitle}
           error={errors?.jobTitle}
@@ -45,7 +48,7 @@ const JobDetailsForm: React.FC<{
           label="Job Details"
           placeholder="Enter job details"
           name="jobDetails"
-          onChange={handleChange}
+          onChange={(e) => handleFieldChange("jobDetails", e.target.value)}
           onBlur={handleBlur}
           value={values?.jobDetails}
           error={errors?.jobDetails}
@@ -55,7 +58,7 @@ const JobDetailsForm: React.FC<{
           label="Job Location"
           name="jobLocation"
           placeholder="Enter job location"
-          onChange={handleChange}
+          onChange={(e) => handleFieldChange("jobLocation", e.target.value)}
           onBlur={handleBlur}
           error={errors.jobLocation}
           touched={touched.jobLocation}

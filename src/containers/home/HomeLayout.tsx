@@ -39,6 +39,12 @@ const HomeLayout = () => {
     gender: "",
   });
 
+  const [jobDetails, setJobDetails] = useState({
+    jobTitle: "",
+    jobDetails: "",
+    jobLocation: "",
+  });
+
   return (
     <Box w="100%">
       <Container maxW="1200px">
@@ -57,7 +63,7 @@ const HomeLayout = () => {
                 <RequisitionForm requisitionDetails={requisitionDetails} setRequisitionDetails={setRequisitionDetails} handleTab={handlePage} />
               </TabPanel>
               <TabPanel>
-                <JobDetailsForm handleTab={handlePage} />
+                <JobDetailsForm handleTab={handlePage} jobDetails={jobDetails} setJobDetails={setJobDetails} />
               </TabPanel>
               <TabPanel>
                 <InterviewSettingsForm handleTab={handlePage} />

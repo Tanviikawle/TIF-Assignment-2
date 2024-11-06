@@ -99,14 +99,17 @@ const PreviewCard: React.FC<{
               title="Urgency"
               value={
                 requisitionDetails?.urgency
-                  ? urgencyOptions.find((item) => item.value === requisitionDetails.urgency)?.label || "Not specified"
-                  : "Not specified"
+                  ? urgencyOptions.find((item) => item.value === requisitionDetails.urgency)?.label || "-"
+                  : "-"
               }
             />
             <KeyValue
               title="Gender"
-              // 
-              value={requisitionDetails?.gender}
+              value={
+                requisitionDetails?.urgency
+                  ? genderOptions.find((item) => item.value === requisitionDetails.gender)?.label || "-"
+                  : "-"
+              }
             />
           </DataCard>
           <DataCard title="Job Detail">
